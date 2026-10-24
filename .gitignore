@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+backend/.env
+backend/storage/
+# Node
+node_modules/
+frontend/dist/
+
+backend/ffmpeg/
+
+backend/ffmpeg/
