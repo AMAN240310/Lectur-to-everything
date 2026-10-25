@@ -20,6 +20,10 @@ class Settings(BaseSettings):
     whisper_model: str = "small"
     whisper_device: str = "auto"
 
+    transcription_engine: str = "whisper"  # "whisper" or "elevenlabs"
+    elevenlabs_api_key: str = ""
+    elevenlabs_model: str = "scribe_v1"
+
     ollama_host: str = "http://localhost:11434"
     ollama_model: str = "gemma3:4b"
     ollama_timeout: float = 900.0
