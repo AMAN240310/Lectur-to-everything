@@ -92,6 +92,15 @@ def test_upload_validation(client, course):
         assert upload(client, course["id"], content=ext.encode() * 4, name=f"x{ext}").status_code == 201
 
 
+def test_lecture_date_is_stored_in_iso_format(client, course):
+    # date.fromisoformat() accepts the basic format too, so a lecture uploaded as
+    # "20261027" was stored with that raw string: sorting, the frontend and the
+    # weekday line in extraction.py all read the wrong date.
+    resp = upload(client, course["id"], date="20261027")
+    assert resp.status_code == 201, resp.text
+    assert client.get(f"/api/lectures/{resp.json()['id']}").json()["date"] == "2026-10-27"
+
+
 def test_audio_is_served_for_playback(client, processed):
     resp = client.get(f"/api/lectures/{processed['id']}/audio")
     assert resp.status_code == 200 and resp.content == b"fake-audio-bytes-1"

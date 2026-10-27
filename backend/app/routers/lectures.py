@@ -67,7 +67,11 @@ async def upload_lecture(
         raise HTTPException(404, "Course not found.")
     if lecture_date:
         try:
-            date.fromisoformat(lecture_date)
+            # Store the parsed value, not the string the client sent: fromisoformat
+            # also accepts the basic "20261027" form, and every reader of the field
+            # (sorting, the frontend, the weekday line in extraction.py) expects
+            # YYYY-MM-DD.
+            lecture_date = date.fromisoformat(lecture_date).isoformat()
         except ValueError:
             raise HTTPException(422, "Date must be in YYYY-MM-DD format.")
     else:
